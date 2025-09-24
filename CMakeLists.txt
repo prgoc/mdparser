@@ -1,0 +1,36 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 3.14)
+
+project(mdparser CXX)
+message("project name is automaically set as: ${PROJECT_NAME}")
+
+set(PROJECT_VERSION 1.0.0)
+
+add_executable(a.out src/index.cpp)
+target_include_directories(a.out PUBLIC include/)
+target_link_libraries(a.out PRIVATE parser generator)
+
+add_library(generator STATIC src/generator.cpp)
+target_include_directories(generator PUBLIC include/)
+target_link_libraries(generator PUBLIC token)
+
+add_library(parser STATIC include/parser.hpp src/parser.cpp)
+target_include_directories(parser PUBLIC include/)
+target_link_libraries(parser PUBLIC lexer)
+
+add_library(lexer OBJECT include/lexer.hpp src/lexer.cpp)
+target_include_directories(lexer PUBLIC include/)
+target_link_libraries(lexer PUBLIC token)
+
+add_library(token INTERFACE include/models/token.hpp include/models/merged_token.hpp)
+target_include_directories(token INTERFACE include/models)
+
+MESSAGE(STATUS "--------------------------------------------")
+MESSAGE(STATUS "Info :")
+MESSAGE(STATUS "  Project Name = ${PROJECT_NAME}")
+MESSAGE(STATUS "  Version =     ${PROJECT_VERSION}")
+MESSAGE(STATUS "  CMAKE_VERSION =        ${CMAKE_VERSION}")
+MESSAGE(STATUS "  CMAKE_INSTALL_PREFIX = ${CMAKE_INSTALL_PREFIX}")
+MESSAGE(STATUS "  CMAKE_BUILD_TYPE =     ${CMAKE_BUILD_TYPE}")
+MESSAGE(STATUS "  CMAKE_INSTALL_LIBDIR = ${CMAKE_INSTALL_LIBDIR}")
+message(STATUS "  PCL_VERSION =          ${PCL_VERSION}")
+message(STATUS "  OpenCV_VERSION =    ${OpenCV_VERSION}")

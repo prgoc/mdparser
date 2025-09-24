@@ -8,11 +8,6 @@ vector < Token > parse(const string& markdownRow) {
   return tokenizeText(markdownRow);
 }
 
-void _tokenize(string originalText, int id, const Token* p) {
-  vector < Token > elements;
-
-}
-
 vector < Token > tokenizeText(string textElement, int initialId, const Token* initialRoot) {
   vector < Token > elements;
   auto parent = initialRoot;
@@ -25,22 +20,30 @@ vector < Token > tokenizeText(string textElement, int initialId, const Token* in
 
       if(matchArray.empty()) {
         id++;
-        clog << id << " --> " << parent->id << endl;
         const auto onlyText = genTextElement(id, processingText, parent);
         processingText = "";
         elements.push_back(onlyText);
         continue;
       }
 
+      if(matchArray.position() > 0) {
+        id++;
+        const auto text = matchArray.prefix();
+        const auto textElm = genTextElement(id, text, parent);
+        elements.push_back(textElm);
+        processingText.erase(0, matchArray.position());
+      }
+
       id++;
-      clog << id << " --> " << parent->id << endl;
-      const auto elm = genStrongElement(id, "", parent);
+      /** newで確保しないとアドレスが無効になる */
+      auto elm = new Token;
+      *elm = genStrongElement(id, "", parent);
 
-      parent = &elm;
-      elements.push_back(elm);
+      parent = elm;
+      elements.push_back(*elm);
 
-      processingText.erase(matchArray.position(), matchArray.length());
-
+      processingText.erase(0, matchArray.length());
+      
       self(self, matchArray[1], parent);
       parent = p;
     }

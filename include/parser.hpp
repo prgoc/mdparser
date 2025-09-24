@@ -1,6 +1,5 @@
-#include <string>
 #include <vector>
-#include "models/token.hpp"
+#include "token.hpp"
 
 const auto rootToken = Token {
   0,
