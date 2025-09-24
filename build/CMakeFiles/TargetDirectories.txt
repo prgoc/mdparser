@@ -1,7 +1,0 @@
-/home/mdparser/build/CMakeFiles/a.out.dir
-/home/mdparser/build/CMakeFiles/generator.dir
-/home/mdparser/build/CMakeFiles/parser.dir
-/home/mdparser/build/CMakeFiles/lexer.dir
-/home/mdparser/build/CMakeFiles/token.dir
-/home/mdparser/build/CMakeFiles/edit_cache.dir
-/home/mdparser/build/CMakeFiles/rebuild_cache.dir
