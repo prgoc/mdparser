@@ -29,8 +29,16 @@ Token genStrongElement(int id, string text, const Token* parent) {
   return tkn;
 }
 
-auto matchWithStrongRegxp(string text) {
+smatch matchWithStrongRegxp(string text) {
   smatch m;
   regex_search(text, m, STRONG_ELM_REGXP);
+  return m;
+}
+
+const regex LIST_REGEXP(R"(^( *)([-|\*|\+] (.+))$)");
+
+smatch matchWithListRegxp(string text) {
+  smatch m;
+  regex_search(text, m, LIST_REGEXP);
   return m;
 }

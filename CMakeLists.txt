@@ -7,11 +7,16 @@ set(PROJECT_VERSION 1.0.0)
 
 add_executable(a.out src/index.cpp)
 target_include_directories(a.out PUBLIC include/)
-target_link_libraries(a.out PRIVATE parser generator)
+target_link_libraries(a.out PRIVATE parser generator helper)
+
+add_library(helper OBJECT tools/helper.cpp)
+target_include_directories(helper PUBLIC tools/)
+target_link_libraries(helper PUBLIC token)
 
 add_library(generator STATIC src/generator.cpp)
 target_include_directories(generator PUBLIC include/)
 target_link_libraries(generator PUBLIC token)
+target_link_libraries(generator PRIVATE helper)
 
 add_library(parser STATIC include/parser.hpp src/parser.cpp)
 target_include_directories(parser PUBLIC include/)

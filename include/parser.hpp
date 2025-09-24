@@ -10,3 +10,4 @@ const auto rootToken = Token {
 
 std::vector < Token > parse(const std::string& markdownRow);
 std::vector < Token > tokenizeText(std::string textElement, int initialId = 0, const Token* initialRoot = &rootToken);
+std::vector < Token > tokenizeList(std::string listString);

@@ -1,7 +1,8 @@
 #include <vector>
 #include <algorithm>
-#include <sstream>
+#include <iostream>
 #include "merged_token.hpp"
+#include "helper.hpp"
 
 using namespace std;
 
@@ -36,7 +37,13 @@ auto getInsertPosition(string content) {
 
 string createMergedContent(Token currentToken, Token parentToken) {
   string content;
-  if(parentToken.elmType == "strong") {
+  print_token(currentToken, "current: ");
+  print_token(parentToken, "parent: ");
+  if(parentToken.elmType == "li") {
+    content = "<li>" + currentToken.content + "</li>";
+  } else if(parentToken.elmType == "ul") {
+    content = "<ul>" + currentToken.content + "</ul>";
+  }else if(parentToken.elmType == "strong") {
     content = "<strong>" + currentToken.content + "</strong>";
   }else if(parentToken.elmType == "merged") {
     const auto position = getInsertPosition(parentToken.content);
@@ -54,24 +61,29 @@ string generate(vector < vector < Token > > asts) {
       auto iterator = rearrangedAst.begin();
       while(iterator != rearrangedAst.end()) {
         if(iterator->parent && iterator->parent->elmType == "root") {
+          print_token(*iterator, "current: ");
+          clog << "  through." << endl;
           iterator++;
           continue;
         }
-        const auto currentToken = iterator;
+        const auto currentToken = *iterator;
+        print_token(currentToken, "current: ");
         iterator = rearrangedAst.erase(iterator);
-        const auto parentToken = find_if(
+        clog << "  into merge..." << endl;
+        auto& parentToken = *find_if(
           rearrangedAst.begin(),
           rearrangedAst.end(),
           [&](Token t) {
-            return t.id == currentToken->parent->id;
+            return t.id == currentToken.parent->id;
           });
         const MergedToken mergedToken {
-          parentToken->id,
-          parentToken->parent,
+          parentToken.id,
+          parentToken.parent,
           "merged",
-          createMergedContent(*currentToken, *parentToken)
+          createMergedContent(currentToken, parentToken)
         };
-        *parentToken = mergedToken;
+        parentToken = mergedToken;
+        clog << "merged content: '" << parentToken.content << "'" << endl;
       }
     }
     htmlStrings += generateHTMLString(rearrangedAst);

@@ -5,6 +5,9 @@
 using namespace std;
 
 vector < Token > parse(const string& markdownRow) {
+  if(!matchWithListRegxp(markdownRow).empty()) {
+    return tokenizeList(markdownRow);
+  }
   return tokenizeText(markdownRow);
 }
 
@@ -43,11 +46,46 @@ vector < Token > tokenizeText(string textElement, int initialId, const Token* in
       elements.push_back(*elm);
 
       processingText.erase(0, matchArray.length());
-      
+
       self(self, matchArray[1], parent);
       parent = p;
     }
   };
   tokenize(tokenize, textElement, parent);
   return elements;
+}
+
+std::vector < Token > tokenizeList(std::string listString) {
+  static const string UNORDERED_LIST = "ul";
+  static const string LIST_ITEM = "li";
+
+  auto id = 1;
+  const auto rootULToken = new Token;
+  *rootULToken = Token {
+    id,
+    &rootToken,
+    UNORDERED_LIST,
+    ""
+  };
+  auto parent = rootULToken;
+  vector < Token > tokens = {
+    *rootULToken
+  };
+  auto match = matchWithListRegxp(listString);
+
+  id++;
+  const auto listToken = new Token;
+  *listToken = Token {
+    id,
+    parent,
+    LIST_ITEM,
+    ""
+  };
+  tokens.push_back(*listToken);
+  const vector < Token > listText = tokenizeText(match.str(3), id, listToken);
+  id += listText.size();
+  for (auto item: listText) {
+    tokens.push_back(item);
+  }
+  return tokens;
 }
