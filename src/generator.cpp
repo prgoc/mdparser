@@ -1,7 +1,7 @@
 #include <vector>
 #include <algorithm>
 #include <iostream>
-#include "merged_token.hpp"
+#include "token.hpp"
 #include "helper.hpp"
 
 using namespace std;

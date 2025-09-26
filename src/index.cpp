@@ -1,37 +1,33 @@
 #include <iostream>
 #include <algorithm>
 #include <regex>
+#include "lexer.hpp"
 #include "parser.hpp"
 #include "generator.hpp"
 #include "helper.hpp"
 
 using namespace std;
 
-auto toAsts(string markdown) {
-  const auto mdArray = split(markdown, regex(R"(\r\n|\r|\n)"));
-  vector < vector < Token > > asts;
-  for(const auto& md: mdArray) {
-    asts.push_back(parse(md));
-  };
-  return asts;
-}
-
 auto convertToHTMLString(string markdown) {
-  /*
-  const auto mdArray = split(markdown, regex(R"(\r\n|\r|\n)"));
+  const auto mdArray = analyze(markdown);
   vector < vector < Token > > asts;
   for(const auto& md: mdArray) {
+    clog << "------ md ------" << endl
+    << md << endl
+    << "----------------" << endl;
     asts.push_back(parse(md));
   };
-  */
-  auto asts = toAsts(markdown);
+  clog << "parsed:" << endl;
+  show(asts);
   const auto htmlString = generate(asts);
   return htmlString;
 }
 
-int main() {
-  string input = "* list1";
-  cout << "input: " << input << endl;
-  show(toAsts(input));
-  cout << convertToHTMLString(input) << endl;
+int main(int argc, char* argv[]) {
+  string input = "normal text\n \n * **boldlist1**\n * item2";
+  cout << "input:" << endl
+  << input << endl;
+  string output = convertToHTMLString(input);
+  cout << "output:" << endl;
+  cout << output << endl;
 }

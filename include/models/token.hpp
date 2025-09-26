@@ -12,3 +12,7 @@ struct Token {
   /** content of token */
   std::string content;
 };
+
+struct MergedToken: public Token {
+  std::string elmType = "merged";
+};

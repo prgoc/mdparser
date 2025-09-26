@@ -1,5 +1,6 @@
 #include "parser.hpp"
 #include "lexer.hpp"
+#include "helper.hpp"
 #include <iostream>
 
 using namespace std;
@@ -71,21 +72,27 @@ std::vector < Token > tokenizeList(std::string listString) {
   vector < Token > tokens = {
     *rootULToken
   };
-  auto match = matchWithListRegxp(listString);
+  const auto& rows = split(listString, regex("(\r\n|\r|\n)"));
+  for(auto l: rows) {
+    if(l == "") {
+      continue;
+    }
+    auto match = matchWithListRegxp(l);
 
-  id++;
-  const auto listToken = new Token;
-  *listToken = Token {
-    id,
-    parent,
-    LIST_ITEM,
-    ""
-  };
-  tokens.push_back(*listToken);
-  const vector < Token > listText = tokenizeText(match.str(3), id, listToken);
-  id += listText.size();
-  for (auto item: listText) {
-    tokens.push_back(item);
+    id++;
+    const auto listToken = new Token;
+    *listToken = Token {
+      id,
+      parent,
+      LIST_ITEM,
+      ""
+    };
+    tokens.push_back(*listToken);
+    const vector < Token > listText = tokenizeText(match.str(3), id, listToken);
+    id += listText.size();
+    for (auto item: listText) {
+      tokens.push_back(item);
+    }
   }
   return tokens;
 }

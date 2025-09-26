@@ -1,4 +1,5 @@
 #include <regex>
+#include "token.hpp"
 
 /** Generate Text Element */
 Token genTextElement(int id, std::string text, const Token* parent);
@@ -10,3 +11,5 @@ Token genStrongElement(int id, std::string text, const Token* parent);
 std::smatch matchWithStrongRegxp(std::string text);
 
 std::smatch matchWithListRegxp(std::string text) ;
+
+std::vector < std::string > analyze(std::string markdown);

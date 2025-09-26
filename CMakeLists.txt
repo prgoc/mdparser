@@ -5,9 +5,9 @@ message("project name is automaically set as: ${PROJECT_NAME}")
 
 set(PROJECT_VERSION 1.0.0)
 
-add_executable(a.out src/index.cpp)
-target_include_directories(a.out PUBLIC include/)
-target_link_libraries(a.out PRIVATE parser generator helper)
+add_executable(main src/index.cpp)
+target_include_directories(main PUBLIC include/)
+target_link_libraries(main PRIVATE lexer parser generator helper)
 
 add_library(helper OBJECT tools/helper.cpp)
 target_include_directories(helper PUBLIC tools/)
@@ -20,13 +20,13 @@ target_link_libraries(generator PRIVATE helper)
 
 add_library(parser STATIC include/parser.hpp src/parser.cpp)
 target_include_directories(parser PUBLIC include/)
-target_link_libraries(parser PUBLIC lexer)
+target_link_libraries(parser PUBLIC helper lexer)
 
 add_library(lexer OBJECT include/lexer.hpp src/lexer.cpp)
 target_include_directories(lexer PUBLIC include/)
-target_link_libraries(lexer PUBLIC token)
+target_link_libraries(lexer PUBLIC token helper)
 
-add_library(token INTERFACE include/models/token.hpp include/models/merged_token.hpp)
+add_library(token INTERFACE include/models/token.hpp)
 target_include_directories(token INTERFACE include/models)
 
 MESSAGE(STATUS "--------------------------------------------")
