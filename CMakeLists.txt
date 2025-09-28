@@ -9,8 +9,8 @@ add_executable(main src/index.cpp)
 target_include_directories(main PUBLIC include/)
 target_link_libraries(main PRIVATE lexer parser generator helper)
 
-add_library(helper OBJECT tools/helper.cpp)
-target_include_directories(helper PUBLIC tools/)
+add_library(helper OBJECT src/tools/helper.cpp)
+target_include_directories(helper PUBLIC src/tools/)
 target_link_libraries(helper PUBLIC token)
 
 add_library(generator STATIC src/generator.cpp)
