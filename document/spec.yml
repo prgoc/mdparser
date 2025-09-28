@@ -1,0 +1,12 @@
+inline:
+    thematic_break:
+        - "0-3 spaces" 
+        #repeat ["*" or "-" or "_"] 3 times
+        - "3 or more '*'"
+        - " {0,3}(?:\\*[ \\t]*){3,}"
+        - "<hr />"
+    headings:
+        ATX_heading: []
+        setext_heading: []
+blocks:
+    - leaf_blocks:

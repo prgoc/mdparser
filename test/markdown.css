@@ -1,0 +1,98 @@
+* {
+  /*border: 1px dashed darkgray;*/
+  flex: auto;
+}
+
+body {
+  background-color: black;
+  color: gray;
+}
+
+details>summary {
+  display: flex;
+  /*list-style: none;*/
+}
+
+summary>h2 {
+  flex: auto;
+}
+
+/* --------アイコンを作ります-------- */
+.icon {
+  flex: initial;
+  display: block;
+  position: relative;
+  width: 24px;
+  transform-origin: center;
+  /*transition: transform 0.4s;*/
+}
+
+/* アコーディオンが開いた時のスタイル */
+details[open] .icon {
+  transform: rotate(180deg);
+}
+
+details[open]>summary {
+  background: rgba(64, 64, 64, 0.4);
+}
+
+/* アイコンのバーのスタイル */
+.icon::before,
+.icon::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  display: block;
+  width: 15px;
+  height: 3px;
+  background-color: cornflowerblue;
+}
+
+.icon::before {
+  left: 0;
+  transform: rotate(45deg);
+}
+
+.icon::after {
+  right: 0;
+  transform: rotate(-45deg);
+}
+
+.flexbox {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.space {
+  border: 1px dashed gray;
+}
+
+ul.plain {
+  margin: 0;
+  list-style: none;
+  padding-left: 0;
+}
+
+ul.plain>li {
+  margin: 1rem 0;
+}
+
+#headings {
+  max-width: 400px;
+}
+
+#headings :where(.markdown, .HTML) {
+  flex: initial;
+}
+
+#headings .markdown :where(p, li) {
+  padding-inline: 4.5vw;
+}
+
+#headings .HTML p {
+  padding-inline-start: 4.5vw;
+}
+
+#thematic-break .view {
+  width: 100%;
+}
