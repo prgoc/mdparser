@@ -1,8 +1,6 @@
 #include <iostream>
 #include <fstream>
-#include <sstream>
-#include <algorithm>
-#include <regex>
+#include <ranges>
 #include "lexer.hpp"
 #include "parser.hpp"
 #include "generator.hpp"
@@ -27,10 +25,10 @@ auto convertToHTMLString(string markdown) {
 
 int main(int argc, char* argv[]) {
   ifstream ifs("../test/input.md");
-  string input = ""; //"normal text\n \n * **boldlist1**\n * item2";
-  stringstream ss;
-  ss << ifs.rdbuf();
-  input = ss.str();
+  string input {
+    istreambuf_iterator < char > (ifs),
+    istreambuf_iterator < char > ()
+  }; //"normal text\n \n * **boldlist1**\n * item2";
   cout << "input:" << endl
   << input << endl;
   string output = convertToHTMLString(input);

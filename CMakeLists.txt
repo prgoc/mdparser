@@ -8,6 +8,7 @@ set(PROJECT_VERSION 1.0.0)
 add_executable(main src/index.cpp)
 target_include_directories(main PUBLIC include/)
 target_link_libraries(main PRIVATE lexer parser generator helper)
+target_compile_features(main PRIVATE cxx_std_23)
 
 add_library(helper OBJECT src/tools/helper.cpp)
 target_include_directories(helper PUBLIC src/tools/)
